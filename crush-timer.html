@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Crush 3v3 Game Timer</title>
+  <style>
+    :root { --pad: 14px; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: var(--pad); }
+    .card { max-width: 520px; margin: 0 auto; border: 1px solid #ddd; border-radius: 14px; padding: 18px; }
+    h1 { font-size: 18px; margin: 0 0 10px; }
+    .time { font-size: 56px; font-weight: 700; letter-spacing: 1px; text-align: center; padding: 16px 0; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; }
+    button {
+      flex: 1 1 140px;
+      font-size: 16px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid #bbb;
+      background: #fff;
+    }
+    button.primary { border-color: #111; }
+    button:active { transform: translateY(1px); }
+    .hint { font-size: 12px; color: #555; margin-top: 10px; }
+    .small { font-size: 13px; color: #333; }
+    input[type="number"]{ width: 90px; padding: 10px; border-radius: 10px; border: 1px solid #bbb; font-size: 14px; }
+    .settings{ display:flex; gap:10px; align-items:center; justify-content:center; margin: 6px 0 10px; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Crush 3v3 — Game Timer</h1>
+
+    <div class="settings">
+      <div class="small">Minutes:</div>
+      <input id="mins" type="number" min="1" max="60" value="15" />
+      <button id="setBtn">Set</button>
+    </div>
+
+    <div class="time" id="display">15:00</div>
+
+    <div class="row">
+      <button id="startPause" class="primary">Start</button>
+      <button id="reset">Reset</button>
+    </div>
+
+    <div class="hint">
+      Tip: Leave this open while scoring. Start/Pause toggles. Reset returns to the preset.
+    </div>
+  </div>
+
+<script>
+  let presetSeconds = 15 * 60;
+  let remaining = presetSeconds;
+  let running = false;
+  let t = null;
+
+  const display = document.getElementById('display');
+  const startPause = document.getElementById('startPause');
+  const reset = document.getElementById('reset');
+  const mins = document.getElementById('mins');
+  const setBtn = document.getElementById('setBtn');
+
+  function fmt(sec){
+    sec = Math.max(0, Math.floor(sec));
+    const m = String(Math.floor(sec / 60)).padStart(2,'0');
+    const s = String(sec % 60).padStart(2,'0');
+    return `${m}:${s}`;
+  }
+
+  function render(){
+    display.textContent = fmt(remaining);
+    startPause.textContent = running ? 'Pause' : 'Start';
+  }
+
+  function tick(){
+    if (!running) return;
+    remaining -= 1;
+    if (remaining <= 0){
+      remaining = 0;
+      running = false;
+      clearInterval(t); t = null;
+      // simple vibration cue on mobile if allowed
+      try { navigator.vibrate && navigator.vibrate([200,100,200]); } catch(e){}
+    }
+    render();
+  }
+
+  startPause.addEventListener('click', () => {
+    running = !running;
+    if (running && !t) t = setInterval(tick, 1000);
+    if (!running && t) { clearInterval(t); t = null; }
+    render();
+  });
+
+  reset.addEventListener('click', () => {
+    running = false;
+    if (t) { clearInterval(t); t = null; }
+    remaining = presetSeconds;
+    render();
+  });
+
+  setBtn.addEventListener('click', () => {
+    const m = Math.max(1, Math.min(60, parseInt(mins.value || '15', 10)));
+    mins.value = m;
+    presetSeconds = m * 60;
+    running = false;
+    if (t) { clearInterval(t); t = null; }
+    remaining = presetSeconds;
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>
