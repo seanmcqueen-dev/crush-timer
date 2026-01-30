@@ -6,40 +6,82 @@
   <meta name="color-scheme" content="light dark">
   <title>Crush 3v3 Game Timer</title>
   <style>
-    :root { --pad: 14px; }
-     body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: transparent;
-    }
-    .card { max-width: 520px; margin: 0 auto; border: 1px solid #ddd; border-radius: 14px; padding: 12px; }
-    h1 { font-size: 18px; margin: 0 0 10px; }
-    .time { font-size: 56px; font-weight: 700; letter-spacing: 1px; text-align: center; padding: 16px 0; }
-    .row { display: flex; gap: 10px; flex-wrap: wrap; }
-    button {
-      flex: 1 1 140px;
-      font-size: 16px;
-      padding: 12px 14px;
-      border-radius: 12px;
-      border: 1px solid #bbb;
-      background: #fff;
-    }
-    button.primary { border-color: #111; }
-    button:active { transform: translateY(1px); }
-    .hint { font-size: 12px; color: #555; margin-top: 10px; }
-    .small { font-size: 13px; color: #333; }
-    input[type="number"]{ width: 90px; padding: 10px; border-radius: 10px; border: 1px solid #bbb; font-size: 14px; }
-    .settings{ display:flex; gap:10px; align-items:center; justify-content:center; margin: 6px 0 10px; flex-wrap: wrap; }
-    /* Dark mode support (works in embedded webviews via data-theme) */
-    :root[data-theme="dark"] body { background: transparent; color: #eee; }
-    :root[data-theme="dark"] .card { border-color: #2a2a2a; background: #141414; }
-    :root[data-theme="dark"] .hint { color: #aaa; }
-    :root[data-theme="dark"] .small { color: #ddd; }
-    :root[data-theme="dark"] button { background: #1b1b1b; border-color: #3a3a3a; color: #eee; }
-    :root[data-theme="dark"] button.primary { border-color: #e5e5e5; }
-    :root[data-theme="dark"] input[type="number"] { background: #1b1b1b; border-color: #3a3a3a; color: #eee; }
-    }
+    html, body {
+    height: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+  }
+  
+  .card {
+    max-width: 520px;
+    margin: 0 auto;
+    border: 0;
+    border-radius: 0;
+    padding: 12px;
+    min-height: 100%;
+    box-sizing: border-box;
+  }
+  
+  h1 { font-size: 18px; margin: 0 0 10px; }
+  .time { font-size: 56px; font-weight: 700; letter-spacing: 1px; text-align: center; padding: 16px 0; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  
+  button {
+    flex: 1 1 140px;
+    font-size: 16px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid #bbb;
+    background: #fff;
+  }
+  
+  button.primary { border-color: #111; }
+  button:active { transform: translateY(1px); }
+  
+  .hint { font-size: 12px; color: #555; margin-top: 10px; }
+  .small { font-size: 13px; color: #333; }
+  
+  input[type="number"]{
+    width: 90px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #bbb;
+    font-size: 14px;
+  }
+  
+  .settings{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    justify-content:center;
+    margin: 6px 0 10px;
+    flex-wrap: wrap;
+  }
+  
+  /* Dark mode support (works in embedded webviews via data-theme) */
+  :root[data-theme="dark"] html,
+  :root[data-theme="dark"] body { background: #0f0f0f; }
+  
+  :root[data-theme="dark"] .card { background: #141414; }
+  
+  :root[data-theme="dark"] .hint { color: #aaa; }
+  :root[data-theme="dark"] .small { color: #ddd; }
+  
+  :root[data-theme="dark"] button {
+    background: #1b1b1b;
+    border-color: #3a3a3a;
+    color: #eee;
+  }
+  
+  :root[data-theme="dark"] button.primary { border-color: #e5e5e5; }
+  
+  :root[data-theme="dark"] input[type="number"] {
+    background: #1b1b1b;
+    border-color: #3a3a3a;
+    color: #eee;
+  }
   </style>
 </head>
 <body>
@@ -144,6 +186,7 @@
 </script>
 </body>
 </html>
+
 
 
 
