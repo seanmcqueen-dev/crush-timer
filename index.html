@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="light dark">
   <title>Crush 3v3 Game Timer</title>
   <style>
     :root { --pad: 14px; }
@@ -25,15 +26,14 @@
     .small { font-size: 13px; color: #333; }
     input[type="number"]{ width: 90px; padding: 10px; border-radius: 10px; border: 1px solid #bbb; font-size: 14px; }
     .settings{ display:flex; gap:10px; align-items:center; justify-content:center; margin: 6px 0 10px; flex-wrap: wrap; }
-    /* Dark mode support (auto matches device / Glide) */
-    @media (prefers-color-scheme: dark) {
-      body { background: transparent; color: #eee; }
-      .card { border-color: #2a2a2a; background: #141414; }
-      .hint { color: #aaa; }
-      .small { color: #ddd; }
-      button { background: #1b1b1b; border-color: #3a3a3a; color: #eee; }
-      button.primary { border-color: #e5e5e5; }
-      input[type="number"] { background: #1b1b1b; border-color: #3a3a3a; color: #eee; }
+    /* Dark mode support (works in embedded webviews via data-theme) */
+    :root[data-theme="dark"] body { background: transparent; color: #eee; }
+    :root[data-theme="dark"] .card { border-color: #2a2a2a; background: #141414; }
+    :root[data-theme="dark"] .hint { color: #aaa; }
+    :root[data-theme="dark"] .small { color: #ddd; }
+    :root[data-theme="dark"] button { background: #1b1b1b; border-color: #3a3a3a; color: #eee; }
+    :root[data-theme="dark"] button.primary { border-color: #e5e5e5; }
+    :root[data-theme="dark"] input[type="number"] { background: #1b1b1b; border-color: #3a3a3a; color: #eee; }
     }
   </style>
 </head>
@@ -58,6 +58,21 @@
       Tip: Leave this open while scoring. Start/Pause toggles. Reset returns to the preset.
     </div>
   </div>
+
+ <script>
+  // Force theme based on device preference (works even in some embedded webviews)
+  (function () {
+    const mql = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+    function apply() {
+      document.documentElement.dataset.theme = (mql && mql.matches) ? 'dark' : 'light';
+    }
+    try {
+      apply();
+      if (mql && mql.addEventListener) mql.addEventListener('change', apply);
+      else if (mql && mql.addListener) mql.addListener(apply); // older webviews
+    } catch (e) {}
+  })();
+</script>
 
 <script>
   let presetSeconds = 15 * 60;
@@ -124,5 +139,6 @@
 </script>
 </body>
 </html>
+
 
 
