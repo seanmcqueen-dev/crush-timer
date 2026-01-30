@@ -25,6 +25,16 @@
     .small { font-size: 13px; color: #333; }
     input[type="number"]{ width: 90px; padding: 10px; border-radius: 10px; border: 1px solid #bbb; font-size: 14px; }
     .settings{ display:flex; gap:10px; align-items:center; justify-content:center; margin: 6px 0 10px; flex-wrap: wrap; }
+    /* Dark mode support (auto matches device / Glide) */
+    @media (prefers-color-scheme: dark) {
+      body { background: transparent; color: #eee; }
+      .card { border-color: #2a2a2a; background: #141414; }
+      .hint { color: #aaa; }
+      .small { color: #ddd; }
+      button { background: #1b1b1b; border-color: #3a3a3a; color: #eee; }
+      button.primary { border-color: #e5e5e5; }
+      input[type="number"] { background: #1b1b1b; border-color: #3a3a3a; color: #eee; }
+    }
   </style>
 </head>
 <body>
@@ -114,4 +124,5 @@
 </script>
 </body>
 </html>
+
 
